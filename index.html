@@ -362,12 +362,68 @@
       .section-title h2 { font-size: 1.75rem; }
       .badge { font-size: 0.85rem; }
     }
+
+    .brand-logo {
+      width: min(320px, 88%);
+      display: block;
+      margin: 0 auto;
+      filter: drop-shadow(0 18px 34px rgba(0,0,0,0.24));
+      animation: heroFloat 5.8s ease-in-out infinite;
+    }
+
+    .brand-caption {
+      margin-top: 12px;
+      color: var(--accent);
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      font-size: 0.83rem;
+      font-weight: 700;
+    }
+
+    .scroll-cta {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-top: 6px;
+      padding: 12px 22px;
+      border-radius: 999px;
+      text-decoration: none;
+      color: #f9f1e3;
+      font-weight: 700;
+      border: 1px solid rgba(217,170,98,0.35);
+      background: linear-gradient(180deg, rgba(217,170,98,0.22), rgba(217,170,98,0.10));
+      box-shadow: 0 10px 24px rgba(0,0,0,0.18);
+      transition: transform 0.28s ease, box-shadow 0.28s ease, border-color 0.28s ease;
+    }
+
+    .scroll-cta:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 14px 30px rgba(0,0,0,0.24);
+      border-color: rgba(217,170,98,0.55);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(26px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+
+    .reveal-visible {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    @keyframes heroFloat {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-8px); }
+    }
+
   </style>
 </head>
 <body>
   <main class="frame">
     <div class="container">
-      <section class="hero">
+      <section class="hero reveal reveal-visible">
         <div class="hero-card">
           <div class="eyebrow">Zekke Makarna</div>
           <h1>Menü</h1>
@@ -385,16 +441,17 @@
         <div class="visual-card">
           <div class="plate-wrap">
             <div class="logo-mark">
-              <div class="brand-top">ZEKKE</div>
-              <div class="brand-sub">MAKARNA</div>
+              <img class="brand-logo" src="logo.png" alt="Zekke Makarna logosu" />
+              <div class="brand-caption">Premium QR Menü</div>
             </div>
             <div class="plate" aria-hidden="true"></div>
+            <a class="scroll-cta" href="#menu-start">Menüyü İncele</a>
           </div>
         </div>
       </section>
 
-      <section class="menu-grid">
-        <article class="menu-section">
+      <section class="menu-grid reveal" id="menu-start">
+        <article class="menu-section reveal">
           <div class="section-title"><h2>Makarnalar</h2><span class="line"></span></div>
           <div class="two-col-list">
             <div class="item">
@@ -432,7 +489,7 @@
           </div>
         </article>
 
-        <article class="menu-section">
+        <article class="menu-section reveal">
           <div class="section-title"><h2>Tavuk Soteler</h2><span class="line"></span></div>
           <div class="two-col-list">
             <div class="item">
@@ -463,7 +520,7 @@
           </div>
         </article>
 
-        <article class="menu-section">
+        <article class="menu-section reveal">
           <div class="section-title"><h2>Kahvaltı Çeşitleri</h2><span class="line"></span></div>
           <div class="two-col-list">
             <div class="item">
@@ -488,7 +545,7 @@
           </div>
         </article>
 
-        <article class="menu-section">
+        <article class="menu-section reveal">
           <div class="section-title"><h2>Tatlılar &amp; İçecekler</h2><span class="line"></span></div>
           <div class="two-col-list">
             <div class="item">
@@ -501,10 +558,10 @@
               <div class="item-head"><div class="name">Cola 330 mL</div><div class="price">60 TL</div></div>
             </div>
             <div class="item">
-              <div class="item-head"><div class="name">Ice Tea Limon 330 mL</div><div class="price">60 TL</div></div>
+              <div class="item-head"><div class="name">İçe Tea Limon 330 mL</div><div class="price">60 TL</div></div>
             </div>
             <div class="item">
-              <div class="item-head"><div class="name">Ice Tea Şeftali 330 mL</div><div class="price">60 TL</div></div>
+              <div class="item-head"><div class="name">İçe Tea Şeftali 330 mL</div><div class="price">60 TL</div></div>
             </div>
             <div class="item">
               <div class="item-head"><div class="name">Meyve Suyu 330 mL</div><div class="price">65 TL</div></div>
@@ -523,7 +580,7 @@
           <div class="footer-note">
             * Alerjen madde uyarısı ürünlere; yumurta, gluten, süt ve süt ürünleri, yer fıstığı ve yer fıstığı ürünleri, soya fasülyesi ve soya ürünleri içerebilir.<br>
             * Fiyatlarımıza tüm vergiler dahildir.
-            <div class="mini-note">Fiyatlar 29.03.2026 tarihinde güncellenmiştir.</div>
+            <div class="mini-note">Fiyat değişim tarihi alanı işletme tarafından güncellenebilir.</div>
           </div>
         </article>
       </section>
@@ -531,5 +588,18 @@
       <div class="credit">Zekke Makarna • Dijital QR Menü</div>
     </div>
   </main>
+
+  <script>
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('reveal-visible');
+        }
+      });
+    }, { threshold: 0.12 });
+
+    document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+  </script>
+
 </body>
 </html>
